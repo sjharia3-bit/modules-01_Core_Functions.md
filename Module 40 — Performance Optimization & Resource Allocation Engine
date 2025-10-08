@@ -1,0 +1,29 @@
+# Module 40 — Performance Optimization & Resource Allocation Engine
+
+class ResourceManager:
+    def __init__(self, total_cpu=100, total_memory=100):
+        self.total_cpu = total_cpu
+        self.total_memory = total_memory
+        self.allocations = {}
+
+    def allocate_resources(self, module_name, requested_cpu, requested_memory):
+        if requested_cpu <= self.total_cpu and requested_memory <= self.total_memory:
+            self.allocations[module_name] = {"cpu": requested_cpu, "memory": requested_memory}
+            self.total_cpu -= requested_cpu
+            self.total_memory -= requested_memory
+            return True
+        return False
+
+    def optimize_allocations(self, module_metrics):
+        # Simple optimization: prioritize high-impact modules
+        sorted_modules = sorted(module_metrics.items(), key=lambda x: x[1]["impact"], reverse=True)
+        for module, metrics in sorted_modules:
+            self.allocate_resources(module, metrics["cpu_needed"], metrics["memory_needed"])
+        return self.allocations
+
+# Example usage:
+# manager = ResourceManager()
+# metrics = {"PredictiveEngine":{"cpu_needed":20,"memory_needed":30,"impact":0.9}, "DecisionEngine":{"cpu_needed":15,"memory_needed":25,"impact":0.7}}
+# allocations = manager.optimize_allocations(metrics)
+# print(allocations)
+```
