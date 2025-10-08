@@ -1,0 +1,51 @@
+## Description
+Module 06 implements the **Speech Recognition and Synthesis engine**. It converts spoken user commands into text for processing by other modules and generates natural speech responses from AI outputs.
+
+## Inputs
+- Audio/speech data from microphones or voice sources
+- Processed text or commands from previous modules
+- Speech model parameters and configurations
+
+## Outputs
+- Recognized text from user speech
+- Synthesized audio responses
+- Logs & status updates
+
+## Pseudo-code
+* ← yahan manually type karo ```
+
+# FUNCTION 1: Load Speech Models
+FUNCTION Load_Speech_Models(Recognition_Path, Synthesis_Path):
+    RECOG_MODEL = Read_Model_From_File(Recognition_Path)
+    SYNTH_MODEL = Read_Model_From_File(Synthesis_Path)
+    LOG "Speech models loaded successfully"
+    RETURN RECOG_MODEL, SYNTH_MODEL
+
+# FUNCTION 2: Speech to Text
+FUNCTION Recognize_Speech(Audio, RECOG_MODEL):
+    TEXT = RECOG_MODEL.Convert(Audio)
+    LOG "Recognized text: " + TEXT
+    RETURN TEXT
+
+# FUNCTION 3: Text to Speech
+FUNCTION Synthesize_Speech(Text, SYNTH_MODEL):
+    AUDIO = SYNTH_MODEL.Generate(Text)
+    LOG "Synthesized speech generated"
+    RETURN AUDIO
+
+# MAIN EXECUTION FLOW
+START:
+    RECOG_MODEL, SYNTH_MODEL = Load_Speech_Models("/models/speech_recog.pkl", "/models/speech_synth.pkl")
+    
+    AUDIO_INPUT = RECEIVE_AUDIO()
+    
+    TEXT_OUTPUT = Recognize_Speech(AUDIO_INPUT, RECOG_MODEL)
+    
+    RESPONSE_TEXT = PROCESS_TEXT(TEXT_OUTPUT)  # Processing by other modules
+    
+    AUDIO_RESPONSE = Synthesize_Speech(RESPONSE_TEXT, SYNTH_MODEL)
+    
+    SEND_TO_OUTPUT_HANDLER(AUDIO_RESPONSE)
+    
+    LOG "Speech Recognition & Synthesis completed successfully."
+```
