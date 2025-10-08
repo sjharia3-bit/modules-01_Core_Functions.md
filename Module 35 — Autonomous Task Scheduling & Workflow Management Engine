@@ -1,0 +1,40 @@
+# Module 35 — Autonomous Task Scheduling & Workflow Management Engine
+
+import heapq
+from datetime import datetime, timedelta
+
+class Task:
+    def __init__(self, name, priority=1, duration=1):
+        self.name = name
+        self.priority = priority
+        self.duration = duration
+        self.start_time = None
+        self.end_time = None
+
+class WorkflowManager:
+    def __init__(self):
+        self.task_queue = []
+
+    def add_task(self, task: Task):
+        # Using min-heap for priority scheduling (higher priority = lower number)
+        heapq.heappush(self.task_queue, (task.priority, task))
+
+    def schedule_tasks(self):
+        schedule = []
+        current_time = datetime.now()
+        while self.task_queue:
+            _, task = heapq.heappop(self.task_queue)
+            task.start_time = current_time
+            task.end_time = current_time + timedelta(hours=task.duration)
+            schedule.append(task)
+            current_time = task.end_time
+        return schedule
+
+# Example usage:
+# manager = WorkflowManager()
+# manager.add_task(Task("Data Analysis", priority=1, duration=2))
+# manager.add_task(Task("Report Generation", priority=2, duration=1))
+# schedule = manager.schedule_tasks()
+# for t in schedule:
+#     print(f"{t.name} | Start: {t.start_time} | End: {t.end_time}")
+```
