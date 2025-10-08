@@ -1,0 +1,65 @@
+# Module 02: Advanced Data Processing
+
+## Description
+Module 02 is responsible for **handling complex data transformations and processing**. It takes input from Module 01, applies advanced validation, filtering, and routing rules, and prepares the data for downstream modules. 
+
+This module ensures that all data is processed accurately and consistently, maintaining system integrity and readiness for further operations.
+
+Key responsibilities include:
+- Advanced data validation and sanitization
+- Filtering and transformation based on system rules
+- Routing processed data to next modules
+- Logging all processing steps for debugging and monitoring
+
+## Inputs
+- Processed data from Module 01
+- System parameters and configuration
+- User command flags (if any)
+
+## Outputs
+- Fully validated and transformed data
+- Logs & status updates
+- Errors or warnings (if any)
+
+## Pseudo-code
+* ← yahan manually type karo ```
+
+# FUNCTION 1: Advanced Validation
+FUNCTION Advanced_Validate(Data, Rules):
+    FOR EACH Rule IN Rules:
+        IF NOT Apply_Rule(Data, Rule):
+            LOG "Validation failed: " + Rule
+            RETURN "Error"
+    END FOR
+    RETURN "Valid"
+
+# FUNCTION 2: Data Transformation
+FUNCTION Transform_Data(Data, Transformations):
+    TRANSFORMED = Data
+    FOR EACH Step IN Transformations:
+        TRANSFORMED = Apply_Transformation(TRANSFORMED, Step)
+    END FOR
+    RETURN TRANSFORMED
+
+# FUNCTION 3: Routing Data to Next Module
+FUNCTION Route_Data(Data, Destination):
+    IF Destination IS "Module03":
+        SEND_TO_MODULE03(Data)
+    ELSE IF Destination IS "Module04":
+        SEND_TO_MODULE04(Data)
+    END IF
+    LOG "Data routed to " + Destination
+
+# MAIN EXECUTION FLOW
+START:
+    RAW_DATA = RECEIVE_FROM_MODULE01()
+    
+    VALID_STATUS = Advanced_Validate(RAW_DATA, SYSTEM_RULES)
+    IF VALID_STATUS IS "Error":
+        LOG "Processing halted due to validation error."
+        SEND_ERROR_REPORT(VALID_STATUS)
+    ELSE:
+        TRANSFORMED_DATA = Transform_Data(RAW_DATA, TRANSFORMATION_RULES)
+        ROUTE_DATA(TRANSFORMED_DATA, NEXT_MODULE)
+        LOG "Advanced data processing completed successfully."
+```
