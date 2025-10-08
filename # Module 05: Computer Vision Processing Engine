@@ -1,0 +1,51 @@
+## Description
+Module 05 implements the **Computer Vision (CV) engine** of the AI system. It handles image and video data, performing object detection, classification, and recognition tasks to extract meaningful information for decision-making.
+
+## Inputs
+- Image or video data from sensors or cameras
+- Processed data from previous modules (if applicable)
+- CV model parameters and configurations
+
+## Outputs
+- Detected objects with bounding boxes
+- Classified images or frames
+- Feature vectors for downstream analysis
+- Logs & status updates
+
+## Pseudo-code
+* ← yahan manually type karo ```
+
+# FUNCTION 1: Load CV Model
+FUNCTION Load_CV_Model(Model_Path):
+    MODEL = Read_Model_From_File(Model_Path)
+    LOG "CV Model loaded from " + Model_Path
+    RETURN MODEL
+
+# FUNCTION 2: Process Image/Video
+FUNCTION Process_Input(Data, MODEL):
+    IF Is_Empty(Data):
+        LOG "No input data received"
+        RETURN "Error"
+    END IF
+
+    DETECTIONS = MODEL.Detect_Objects(Data)
+    CLASSIFICATIONS = MODEL.Classify(Detections)
+    RETURN DETECTIONS, CLASSIFICATIONS
+
+# FUNCTION 3: Send to Next Module
+FUNCTION Send_To_Next_Module(Data):
+    SEND_TO_MODULE06(Data)
+    LOG "CV data sent to Module06"
+
+# MAIN EXECUTION FLOW
+START:
+    CV_MODEL = Load_CV_Model("/models/cv_model.pkl")
+    
+    INPUT_DATA = RECEIVE_FROM_PREVIOUS_MODULE()
+    
+    DETECTIONS, CLASSIFICATIONS = Process_Input(INPUT_DATA, CV_MODEL)
+    
+    Send_To_Next_Module({Detections, Classifications})
+    
+    LOG "Computer Vision processing completed successfully."
+```
