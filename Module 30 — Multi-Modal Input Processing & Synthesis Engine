@@ -1,0 +1,45 @@
+# Module 30 — Multi-Modal Input Processing & Synthesis Engine
+
+import cv2
+import speech_recognition as sr
+from PIL import Image
+import numpy as np
+from transformers import AutoTokenizer, AutoModel
+
+class MultiModalEngine:
+    def __init__(self):
+        self.tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
+        self.model = AutoModel.from_pretrained("bert-base-uncased")
+        self.recognizer = sr.Recognizer()
+
+    def process_text(self, text):
+        inputs = self.tokenizer(text, return_tensors="pt")
+        outputs = self.model(**inputs)
+        return outputs.last_hidden_state
+
+    def process_image(self, image_path):
+        image = Image.open(image_path).convert("RGB")
+        array = np.array(image)
+        return array
+
+    def process_audio(self, audio_path):
+        with sr.AudioFile(audio_path) as source:
+            audio_data = self.recognizer.record(source)
+            text = self.recognizer.recognize_google(audio_data)
+        return text
+
+    def synthesize_inputs(self, text_input=None, image_path=None, audio_path=None):
+        results = {}
+        if text_input:
+            results["text_features"] = self.process_text(text_input)
+        if image_path:
+            results["image_array"] = self.process_image(image_path)
+        if audio_path:
+            results["audio_text"] = self.process_audio(audio_path)
+        return results
+
+# Example usage:
+# engine = MultiModalEngine()
+# result = engine.synthesize_inputs(text_input="Hello AI", image_path="img.png", audio_path="voice.wav")
+# print(result)
+```
