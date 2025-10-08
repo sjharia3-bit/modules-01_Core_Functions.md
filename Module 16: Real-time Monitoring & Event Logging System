@@ -1,0 +1,32 @@
+# FUNCTION 1: Monitor System Health
+FUNCTION Monitor_Health():
+    CPU_USAGE = GET_CPU_USAGE()
+    MEMORY_USAGE = GET_MEMORY_USAGE()
+    DISK_STATUS = CHECK_DISK_SPACE()
+    LOG "System health metrics collected."
+    RETURN {CPU_USAGE, MEMORY_USAGE, DISK_STATUS}
+
+# FUNCTION 2: Log Event
+FUNCTION Log_Event(Event_Type, Event_Details):
+    TIMESTAMP = CURRENT_TIME()
+    WRITE_TO_LOG(TIMESTAMP, Event_Type, Event_Details)
+    RETURN TRUE
+
+# FUNCTION 3: Alert System
+FUNCTION Generate_Alert(Alert_Type, Message):
+    SEND_NOTIFICATION(Alert_Type, Message)
+    LOG "Alert generated: " + Message
+    RETURN TRUE
+
+# MAIN EXECUTION FLOW
+START:
+    WHILE SYSTEM_RUNNING:
+        HEALTH_METRICS = Monitor_Health()
+        Log_Event("SystemHealth", HEALTH_METRICS)
+
+        CRITICAL_EVENTS = CHECK_FOR_CRITICAL_EVENTS()
+        FOR EACH Event IN CRITICAL_EVENTS:
+            Generate_Alert(Event.Type, Event.Message)
+        END FOR
+    END WHILE
+```
