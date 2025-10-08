@@ -1,0 +1,31 @@
+# Module 37 — Cross-Platform Integration & API Gateway Engine
+
+import requests
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+class APIGateway:
+    def __init__(self):
+        self.internal_modules = {}
+    
+    def register_module(self, module_name, function):
+        self.internal_modules[module_name] = function
+    
+    def call_module(self, module_name, input_data):
+        if module_name in self.internal_modules:
+            return self.internal_modules[module_name](input_data)
+        else:
+            return {"error": "Module not found"}
+
+    def call_external_api(self, url, payload, headers=None):
+        response = requests.post(url, json=payload, headers=headers)
+        return response.json()
+
+# Example usage:
+# gateway = APIGateway()
+# gateway.register_module("PredictiveEngine", lambda x: {"prediction": x*2})
+# print(gateway.call_module("PredictiveEngine", 5))
+# response = gateway.call_external_api("https://example.com/api", {"data":123})
+# print(response)
+```
