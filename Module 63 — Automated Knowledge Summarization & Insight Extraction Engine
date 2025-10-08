@@ -1,0 +1,22 @@
+# Module 63 — Automated Knowledge Summarization & Insight Extraction Engine
+
+class SummarizationEngine:
+    def __init__(self):
+        self.summaries = {}
+
+    def summarize_text(self, text, max_length=50):
+        sentences = text.split(". ")
+        summary = ". ".join(sentences[:max_length])
+        return summary
+
+    def extract_insights(self, text, keywords):
+        insights = [sentence for sentence in text.split(". ") if any(k in sentence for k in keywords)]
+        return insights
+
+# Example usage:
+# engine = SummarizationEngine()
+# text = "AI 4.0 is powerful. It can automate tasks. Users get insights. It learns continuously."
+# summary = engine.summarize_text(text, max_length=2)
+# insights = engine.extract_insights(text, ["AI", "insights"])
+# print(summary, insights)
+```
