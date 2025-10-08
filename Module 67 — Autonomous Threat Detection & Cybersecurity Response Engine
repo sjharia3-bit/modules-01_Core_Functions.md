@@ -1,0 +1,24 @@
+# Module 67 — Autonomous Threat Detection & Cybersecurity Response Engine
+
+class CyberSecurityEngine:
+    def __init__(self):
+        self.threats_detected = []
+
+    def detect_threat(self, event):
+        suspicious_patterns = ["unauthorized_access", "malware_detected"]
+        for pattern in suspicious_patterns:
+            if pattern in event:
+                self.threats_detected.append(event)
+                return f"Threat Detected: {event}"
+        return "No Threat"
+
+    def respond(self, threat):
+        response_action = "Isolate affected system and alert admin"
+        return response_action
+
+# Example usage:
+# engine = CyberSecurityEngine()
+# event = "user login: unauthorized_access"
+# print(engine.detect_threat(event))
+# print(engine.respond(event))
+```
