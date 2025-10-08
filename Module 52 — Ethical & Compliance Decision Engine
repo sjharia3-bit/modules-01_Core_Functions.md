@@ -1,0 +1,30 @@
+# Module 52 — Ethical & Compliance Decision Engine
+
+class ComplianceEngine:
+    def __init__(self):
+        self.audit_log = []
+
+    def check_compliance(self, action, rules):
+        violations = []
+        for rule_name, rule_func in rules.items():
+            if not rule_func(action):
+                violations.append(rule_name)
+                self.audit_log.append((action, rule_name, "Violation"))
+        return violations
+
+    def decide_action(self, action, rules):
+        violations = self.check_compliance(action, rules)
+        if violations:
+            return f"Action blocked due to: {violations}"
+        else:
+            return "Action approved"
+
+# Example usage:
+# rules = {
+#     "No Personal Data Sharing": lambda x: "personal_data" not in x["data_type"],
+#     "Time Restricted Access": lambda x: x["hour"] < 20
+# }
+# engine = ComplianceEngine()
+# action = {"data_type":"personal_data","hour":18}
+# print(engine.decide_action(action, rules))
+```
