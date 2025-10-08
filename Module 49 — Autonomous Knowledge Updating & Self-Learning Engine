@@ -1,0 +1,29 @@
+# Module 49 — Autonomous Knowledge Updating & Self-Learning Engine
+
+import pickle
+
+class SelfLearningEngine:
+    def __init__(self, knowledge_base_path="knowledge.pkl"):
+        self.knowledge_base_path = knowledge_base_path
+        try:
+            with open(knowledge_base_path, "rb") as f:
+                self.knowledge_base = pickle.load(f)
+        except:
+            self.knowledge_base = {}
+
+    def update_knowledge(self, key, value):
+        self.knowledge_base[key] = value
+        self._save()
+
+    def query_knowledge(self, key):
+        return self.knowledge_base.get(key, None)
+
+    def _save(self):
+        with open(self.knowledge_base_path, "wb") as f:
+            pickle.dump(self.knowledge_base, f)
+
+# Example usage:
+# engine = SelfLearningEngine()
+# engine.update_knowledge("AI_Concepts", ["Adaptive Learning", "Swarm Intelligence"])
+# print(engine.query_knowledge("AI_Concepts"))
+```
