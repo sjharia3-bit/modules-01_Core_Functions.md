@@ -1,0 +1,31 @@
+# Module 44 — Automated Reporting & Visualization Engine
+
+import matplotlib.pyplot as plt
+import pandas as pd
+
+class ReportingEngine:
+    def __init__(self):
+        self.reports = []
+
+    def generate_chart(self, data: pd.DataFrame, chart_type="line", title="Report"):
+        plt.figure(figsize=(10,5))
+        if chart_type == "line":
+            for col in data.columns:
+                plt.plot(data.index, data[col], label=col)
+        elif chart_type == "bar":
+            data.plot(kind="bar")
+        elif chart_type == "pie":
+            data.iloc[0].plot(kind="pie", autopct='%1.1f%%')
+        plt.title(title)
+        plt.legend()
+        plt.show()
+
+    def create_report(self, data: pd.DataFrame, title="Report", chart_type="line"):
+        self.generate_chart(data, chart_type, title)
+        self.reports.append({"title": title, "data": data, "chart_type": chart_type})
+
+# Example usage:
+# engine = ReportingEngine()
+# df = pd.DataFrame({"Sales":[100,200,150],"Profit":[20,50,30]})
+# engine.create_report(df, title="Monthly Performance", chart_type="line")
+```
