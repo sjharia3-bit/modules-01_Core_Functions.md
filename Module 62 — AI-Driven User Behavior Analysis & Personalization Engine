@@ -1,0 +1,24 @@
+# Module 62 — AI-Driven User Behavior Analysis & Personalization Engine
+
+class UserBehaviorEngine:
+    def __init__(self):
+        self.user_profiles = {}
+
+    def analyze_behavior(self, user_id, actions):
+        if user_id not in self.user_profiles:
+            self.user_profiles[user_id] = {"actions": []}
+        self.user_profiles[user_id]["actions"].extend(actions)
+        return self.user_profiles[user_id]
+
+    def personalize_content(self, user_id, content_options):
+        actions = self.user_profiles.get(user_id, {}).get("actions", [])
+        # Simple personalization: prioritize content similar to past actions
+        personalized = sorted(content_options, key=lambda x: x in actions, reverse=True)
+        return personalized
+
+# Example usage:
+# engine = UserBehaviorEngine()
+# engine.analyze_behavior("user1", ["ReadArticle","WatchVideo"])
+# personalized = engine.personalize_content("user1", ["WatchVideo","PlayAudio","ReadArticle"])
+# print(personalized)
+```
