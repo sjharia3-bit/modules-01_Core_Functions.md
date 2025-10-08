@@ -1,0 +1,22 @@
+# Module 61 — Self-Optimizing AI Model Tuning & Hyperparameter Engine
+
+class HyperparameterTuningEngine:
+    def __init__(self):
+        self.best_params = {}
+
+    def tune_model(self, model, param_grid, data, evaluate):
+        best_score = -float('inf')
+        for params in param_grid:
+            model.set_params(**params)
+            score = evaluate(model, data)
+            if score > best_score:
+                best_score = score
+                self.best_params = params
+        return self.best_params, best_score
+
+# Example usage:
+# engine = HyperparameterTuningEngine()
+# param_grid = [{"lr":0.01,"batch_size":32},{"lr":0.001,"batch_size":64}]
+# best_params, score = engine.tune_model(model, param_grid, data, evaluate)
+# print(best_params, score)
+```
