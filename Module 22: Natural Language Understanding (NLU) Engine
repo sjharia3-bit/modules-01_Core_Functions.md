@@ -1,0 +1,36 @@
+# FUNCTION 1: Preprocess Text
+FUNCTION Preprocess_Text(Raw_Text):
+    CLEAN_TEXT = REMOVE_NOISE(Raw_Text)
+    TOKENIZED = TOKENIZE(CLEAN_TEXT)
+    LOG "Text preprocessed successfully."
+    RETURN TOKENIZED
+
+# FUNCTION 2: Parse Intent
+FUNCTION Parse_Intent(Tokenized_Text):
+    INTENT = MATCH_INTENT(Tokenized_Text, INTENT_MODEL)
+    LOG "Intent detected: " + INTENT
+    RETURN INTENT
+
+# FUNCTION 3: Extract Entities
+FUNCTION Extract_Entities(Tokenized_Text):
+    ENTITIES = IDENTIFY_ENTITIES(Tokenized_Text, ENTITY_MODEL)
+    LOG "Entities extracted."
+    RETURN ENTITIES
+
+# FUNCTION 4: Generate Structured Output
+FUNCTION Generate_Structured_Output(Intent, Entities):
+    STRUCTURED = {
+        "Intent": Intent,
+        "Entities": Entities
+    }
+    LOG "Structured output generated."
+    RETURN STRUCTURED
+
+# MAIN EXECUTION FLOW
+START:
+    USER_INPUT = RECEIVE_USER_INPUT()
+    TOKENIZED_TEXT = Preprocess_Text(USER_INPUT)
+    INTENT = Parse_Intent(TOKENIZED_TEXT)
+    ENTITIES = Extract_Entities(TOKENIZED_TEXT)
+    STRUCTURED_OUTPUT = Generate_Structured_Output(INTENT, ENTITIES)
+```
