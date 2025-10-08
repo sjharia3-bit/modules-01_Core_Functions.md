@@ -1,0 +1,31 @@
+# Module 43 — Advanced Data Analytics & Insight Generation Engine
+
+import pandas as pd
+import numpy as np
+
+class AnalyticsEngine:
+    def __init__(self):
+        self.insights = []
+
+    def analyze_data(self, data: pd.DataFrame):
+        summary = data.describe()
+        correlations = data.corr()
+        self.insights.append({"summary": summary, "correlations": correlations})
+        return {"summary": summary, "correlations": correlations}
+    
+    def generate_actionable_insights(self, data: pd.DataFrame, threshold=0.8):
+        insights = []
+        corr_matrix = data.corr()
+        for col1 in corr_matrix.columns:
+            for col2 in corr_matrix.columns:
+                if col1 != col2 and abs(corr_matrix.loc[col1,col2]) > threshold:
+                    insights.append(f"High correlation between {col1} and {col2}")
+        return insights
+
+# Example usage:
+# engine = AnalyticsEngine()
+# df = pd.DataFrame({"A":[1,2,3,4],"B":[2,4,6,8]})
+# result = engine.analyze_data(df)
+# insights = engine.generate_actionable_insights(df)
+# print(insights)
+```
