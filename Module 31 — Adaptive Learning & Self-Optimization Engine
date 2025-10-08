@@ -1,0 +1,40 @@
+# Module 31 — Adaptive Learning & Self-Optimization Engine
+
+import json
+
+class AdaptiveLearningEngine:
+    def __init__(self, config_file="module_config.json"):
+        with open(config_file, "r") as f:
+            self.config = json.load(f)
+
+    def monitor_metrics(self, metrics):
+        # Evaluate performance
+        adjustments = {}
+        for module, value in metrics.items():
+            if value < self.config[module]["target"]:
+                adjustments[module] = "increase_resources"
+            else:
+                adjustments[module] = "maintain"
+        return adjustments
+
+    def self_optimize(self, adjustments):
+        # Apply adaptive tuning
+        for module, action in adjustments.items():
+            if action == "increase_resources":
+                self.config[module]["learning_rate"] *= 1.05
+            elif action == "maintain":
+                pass
+        with open("module_config.json", "w") as f:
+            json.dump(self.config, f)
+
+    def feedback_loop(self, metrics):
+        adjustments = self.monitor_metrics(metrics)
+        self.self_optimize(adjustments)
+        return adjustments
+
+# Example usage:
+# adaptive_engine = AdaptiveLearningEngine()
+# metrics = {"PredictiveAnalytics": 0.85, "DecisionEngine": 0.92}
+# adjustments = adaptive_engine.feedback_loop(metrics)
+# print(adjustments)
+```
