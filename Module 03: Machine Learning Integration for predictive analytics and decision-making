@@ -1,0 +1,42 @@
+## Pseudo-code
+* ← yahan manually type karo ```
+
+# FUNCTION 1: Load ML Model
+FUNCTION Load_Model(Model_Path):
+    MODEL = Read_Model_From_File(Model_Path)
+    LOG "ML Model loaded successfully from " + Model_Path
+    RETURN MODEL
+
+# FUNCTION 2: Predict Using Model
+FUNCTION Predict(Data, MODEL):
+    IF Is_Empty(Data):
+        LOG "Prediction aborted: No data received"
+        RETURN "Error"
+    END IF
+
+    PREDICTIONS = MODEL.Predict(Data)
+    CONFIDENCE = MODEL.Confidence(Data)
+    RETURN PREDICTIONS, CONFIDENCE
+
+# FUNCTION 3: Validate Predictions
+FUNCTION Validate_Predictions(PREDICTIONS, Threshold):
+    FOR EACH prediction IN PREDICTIONS:
+        IF prediction.Confidence < Threshold:
+            LOG "Prediction below threshold: " + prediction
+            FLAG prediction AS "Review"
+    END FOR
+    RETURN PREDICTIONS
+
+# MAIN EXECUTION FLOW
+START:
+    ML_MODEL = Load_Model("/models/ai_model.pkl")
+    
+    INPUT_DATA = RECEIVE_FROM_MODULE02()
+    
+    PREDICTIONS, CONFIDENCE = Predict(INPUT_DATA, ML_MODEL)
+    
+    VALIDATED_RESULTS = Validate_Predictions(PREDICTIONS, SYSTEM_CONFIDENCE_THRESHOLD)
+    
+    SEND_TO_NEXT_MODULE(VALIDATED_RESULTS)
+    LOG "Machine Learning processing completed successfully."
+```
