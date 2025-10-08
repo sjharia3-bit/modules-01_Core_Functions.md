@@ -1,0 +1,30 @@
+# Module 45 — Intelligent Notification & Alerting Engine
+
+import smtplib
+from email.mime.text import MIMEText
+
+class NotificationEngine:
+    def __init__(self):
+        self.notifications_log = []
+
+    def send_email(self, to_address, subject, body):
+        msg = MIMEText(body)
+        msg['Subject'] = subject
+        msg['From'] = "ai_system@example.com"
+        msg['To'] = to_address
+        # Example: SMTP setup (mocked)
+        print(f"Email sent to {to_address} | Subject: {subject}")
+        self.notifications_log.append({"type":"email","to":to_address,"subject":subject,"body":body})
+
+    def alert(self, event, priority="medium", users=["user@example.com"]):
+        subject = f"[{priority.upper()}] Alert: {event['name']}"
+        body = f"Details: {event['details']}"
+        for user in users:
+            self.send_email(user, subject, body)
+        return f"{len(users)} alerts sent."
+
+# Example usage:
+# engine = NotificationEngine()
+# event = {"name":"CPU Overload","details":"CPU usage exceeded 90%"}
+# engine.alert(event, priority="high", users=["admin@example.com"])
+```
