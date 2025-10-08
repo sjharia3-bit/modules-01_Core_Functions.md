@@ -1,0 +1,25 @@
+# Module 55 — Intelligent Resource Forecasting & Allocation Engine
+
+import numpy as np
+
+class ResourceForecastEngine:
+    def __init__(self):
+        self.allocations = {}
+
+    def forecast_resources(self, historical_data, future_steps=5):
+        mean_usage = np.mean(historical_data, axis=0)
+        forecast = [mean_usage * (1 + np.random.normal(0, 0.05, size=mean_usage.shape)) for _ in range(future_steps)]
+        return forecast
+
+    def allocate_resources(self, forecast, modules):
+        for module, usage in zip(modules, forecast[-1]):
+            self.allocations[module] = usage
+        return self.allocations
+
+# Example usage:
+# engine = ResourceForecastEngine()
+# historical_data = np.array([[50,60],[55,65],[52,63]])
+# forecast = engine.forecast_resources(historical_data)
+# allocation = engine.allocate_resources(forecast, ["PredictiveEngine","DecisionEngine"])
+# print(allocation)
+```
