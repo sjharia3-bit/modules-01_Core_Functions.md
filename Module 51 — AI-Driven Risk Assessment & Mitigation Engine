@@ -1,0 +1,31 @@
+# Module 51 — AI-Driven Risk Assessment & Mitigation Engine
+
+class RiskEngine:
+    def __init__(self):
+        self.risk_log = []
+
+    def assess_risk(self, module_metrics):
+        risk_scores = {}
+        for module, metrics in module_metrics.items():
+            score = 0
+            score += metrics.get("error_rate",0)*0.5
+            score += metrics.get("latency",0)*0.3
+            score += metrics.get("resource_overload",0)*0.2
+            risk_scores[module] = score
+        return risk_scores
+
+    def mitigate_risk(self, risk_scores, threshold=0.5):
+        mitigations = {}
+        for module, score in risk_scores.items():
+            if score > threshold:
+                mitigations[module] = "Trigger Mitigation Procedures"
+                self.risk_log.append((module, score, "Mitigation triggered"))
+        return mitigations
+
+# Example usage:
+# engine = RiskEngine()
+# metrics = {"PredictiveEngine":{"error_rate":0.2,"latency":0.3,"resource_overload":0.1}}
+# risk_scores = engine.assess_risk(metrics)
+# mitigations = engine.mitigate_risk(risk_scores)
+# print(risk_scores, mitigations)
+```
