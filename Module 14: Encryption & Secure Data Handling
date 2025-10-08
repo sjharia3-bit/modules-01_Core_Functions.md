@@ -1,0 +1,44 @@
+# MODULE 14: Encryption & Secure Data Handling
+# Purpose: Protect all sensitive information using encryption, hashing, and secure access controls.
+
+# FUNCTION 1: Encrypt Data
+FUNCTION Encrypt_Data(Data, Key):
+    ENCRYPTED = AES_Encrypt(Data, Key)
+    LOG "Data encrypted successfully."
+    RETURN ENCRYPTED
+
+# FUNCTION 2: Decrypt Data
+FUNCTION Decrypt_Data(Encrypted_Data, Key):
+    DECRYPTED = AES_Decrypt(Encrypted_Data, Key)
+    LOG "Data decrypted successfully."
+    RETURN DECRYPTED
+
+# FUNCTION 3: Secure Storage Handler
+FUNCTION Secure_Store(Data, Storage_Path, Key):
+    ENCRYPTED = Encrypt_Data(Data, Key)
+    WRITE_TO_FILE(Storage_Path, ENCRYPTED)
+    LOG "Encrypted data securely stored at: " + Storage_Path
+    RETURN TRUE
+
+# FUNCTION 4: Hashing for Integrity
+FUNCTION Generate_Hash(Data):
+    HASH_VALUE = SHA256(Data)
+    LOG "Hash generated for verification."
+    RETURN HASH_VALUE
+
+# MAIN EXECUTION FLOW
+START:
+    DATA = RECEIVE_SENSITIVE_INFO()
+    KEY = LOAD_SECURITY_KEY("/config/keys/master.key")
+
+    HASH_BEFORE = Generate_Hash(DATA)
+    SECURE_Store(DATA, "/secure_storage/data.enc", KEY)
+
+    RETRIEVED_DATA = Decrypt_Data(READ_FROM_FILE("/secure_storage/data.enc"), KEY)
+    HASH_AFTER = Generate_Hash(RETRIEVED_DATA)
+
+    IF HASH_BEFORE == HASH_AFTER:
+        LOG "Data integrity verified successfully."
+    ELSE:
+        ALERT("Data integrity check failed!")
+```
