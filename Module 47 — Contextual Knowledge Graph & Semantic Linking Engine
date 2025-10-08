@@ -1,0 +1,25 @@
+# Module 47 — Contextual Knowledge Graph & Semantic Linking Engine
+
+import networkx as nx
+
+class KnowledgeGraphEngine:
+    def __init__(self):
+        self.graph = nx.DiGraph()
+    
+    def add_entity(self, entity, entity_type):
+        self.graph.add_node(entity, type=entity_type)
+    
+    def add_relation(self, source, target, relation_type):
+        self.graph.add_edge(source, target, relation=relation_type)
+    
+    def query_relation(self, entity):
+        neighbors = list(self.graph.neighbors(entity))
+        return {neighbor:self.graph[entity][neighbor] for neighbor in neighbors}
+
+# Example usage:
+# kg = KnowledgeGraphEngine()
+# kg.add_entity("AI 4.0", "Concept")
+# kg.add_entity("Adaptive Learning", "Module")
+# kg.add_relation("AI 4.0", "Adaptive Learning", "includes")
+# print(kg.query_relation("AI 4.0"))
+```
