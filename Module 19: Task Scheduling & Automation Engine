@@ -1,0 +1,38 @@
+# FUNCTION 1: Schedule Task
+FUNCTION Schedule_Task(Task_Name, Time, Interval):
+    ADD_TO_QUEUE(Task_Name, Time, Interval)
+    LOG "Task scheduled: " + Task_Name
+    RETURN True
+
+# FUNCTION 2: Execute Scheduled Task
+FUNCTION Execute_Task(Task_Name):
+    TASK = FETCH_FROM_QUEUE(Task_Name)
+    IF TASK:
+        RESULT = RUN(TASK.Function)
+        LOG "Executed task: " + Task_Name
+        RETURN RESULT
+    ELSE:
+        LOG "Task not found: " + Task_Name
+        RETURN "Error"
+
+# FUNCTION 3: Manage Recurring Tasks
+FUNCTION Recurring_Task_Manager():
+    FOR EACH Task IN TASK_QUEUE:
+        IF Task.Interval:
+            Schedule_Task(Task.Name, CURRENT_TIME() + Task.Interval, Task.Interval)
+    END FOR
+    RETURN "Recurring tasks updated"
+
+# MAIN EXECUTION FLOW
+START:
+    Schedule_Task("DailyBackup", "02:00", "24h")
+    Schedule_Task("DataCleanup", "03:00", "24h")
+
+    WHILE SYSTEM_RUNNING:
+        PENDING_TASKS = CHECK_PENDING_TASKS()
+        FOR EACH Task IN PENDING_TASKS:
+            Execute_Task(Task.Name)
+        END FOR
+        Recurring_Task_Manager()
+    END WHILE
+```
