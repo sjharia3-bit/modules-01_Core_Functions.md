@@ -1,0 +1,27 @@
+# FUNCTION 1: Generate Sentence
+FUNCTION Generate_Sentence(Structured_Data):
+    TEMPLATE = SELECT_TEMPLATE(Structured_Data.Intent)
+    SENTENCE = FILL_TEMPLATE(TEMPLATE, Structured_Data.Entities)
+    LOG "Sentence generated."
+    RETURN SENTENCE
+
+# FUNCTION 2: Refine Output
+FUNCTION Refine_Output(Sentence):
+    REFINED = GRAMMAR_CHECK(Sentence)
+    REFINED = APPLY_STYLE(REFINED, STYLE_GUIDE)
+    LOG "Output refined."
+    RETURN REFINED
+
+# FUNCTION 3: Output Delivery
+FUNCTION Deliver_Output(Refined_Sentence, Target):
+    SEND_TO_TARGET(Refined_Sentence, Target)
+    LOG "Output delivered to " + Target
+    RETURN TRUE
+
+# MAIN EXECUTION FLOW
+START:
+    STRUCTURED_INPUT = RECEIVE_STRUCTURED_DATA()
+    RAW_SENTENCE = Generate_Sentence(STRUCTURED_INPUT)
+    FINAL_OUTPUT = Refine_Output(RAW_SENTENCE)
+    Deliver_Output(FINAL_OUTPUT, USER_INTERFACE)
+```
