@@ -1,0 +1,21 @@
+# Module 64 — AI-Powered Sentiment & Opinion Analysis Engine
+
+class SentimentEngine:
+    def __init__(self):
+        self.sentiments = {}
+
+    def analyze_sentiment(self, text):
+        positive_keywords = ["good", "great", "excellent", "happy"]
+        negative_keywords = ["bad", "poor", "terrible", "sad"]
+        score = sum(1 for word in text.split() if word.lower() in positive_keywords) - \
+                sum(1 for word in text.split() if word.lower() in negative_keywords)
+        sentiment = "Positive" if score > 0 else "Negative" if score < 0 else "Neutral"
+        self.sentiments[text] = sentiment
+        return sentiment
+
+# Example usage:
+# engine = SentimentEngine()
+# text = "The product is excellent and the service is good"
+# sentiment = engine.analyze_sentiment(text)
+# print(sentiment)
+```
