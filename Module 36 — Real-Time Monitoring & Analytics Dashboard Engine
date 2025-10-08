@@ -1,0 +1,35 @@
+# Module 36 — Real-Time Monitoring & Analytics Dashboard Engine
+
+import pandas as pd
+import matplotlib.pyplot as plt
+from datetime import datetime
+
+class AnalyticsDashboard:
+    def __init__(self):
+        self.data = pd.DataFrame(columns=["timestamp", "module", "metric", "value"])
+    
+    def update_metrics(self, module, metric, value):
+        timestamp = datetime.now()
+        new_row = {"timestamp": timestamp, "module": module, "metric": metric, "value": value}
+        self.data = pd.concat([self.data, pd.DataFrame([new_row])], ignore_index=True)
+    
+    def generate_dashboard(self):
+        # Simple visualization example
+        for metric in self.data['metric'].unique():
+            df_metric = self.data[self.data['metric']==metric]
+            plt.figure(figsize=(10,4))
+            for mod in df_metric['module'].unique():
+                mod_data = df_metric[df_metric['module']==mod]
+                plt.plot(mod_data['timestamp'], mod_data['value'], label=mod)
+            plt.title(f"Metric: {metric}")
+            plt.xlabel("Time")
+            plt.ylabel("Value")
+            plt.legend()
+            plt.show()
+
+# Example usage:
+# dashboard = AnalyticsDashboard()
+# dashboard.update_metrics("PredictiveEngine", "accuracy", 0.87)
+# dashboard.update_metrics("DecisionEngine", "success_rate", 0.92)
+# dashboard.generate_dashboard()
+```
