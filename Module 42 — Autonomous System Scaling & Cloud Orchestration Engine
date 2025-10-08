@@ -1,0 +1,35 @@
+# Module 42 — Autonomous System Scaling & Cloud Orchestration Engine
+
+class CloudOrchestrator:
+    def __init__(self):
+        self.active_nodes = []
+    
+    def scale_up(self, node_type, count=1):
+        for _ in range(count):
+            self.active_nodes.append(node_type)
+        return f"Scaled up {count} nodes of type {node_type}"
+    
+    def scale_down(self, node_type, count=1):
+        removed = 0
+        for node in list(self.active_nodes):
+            if node == node_type and removed < count:
+                self.active_nodes.remove(node)
+                removed += 1
+        return f"Scaled down {removed} nodes of type {node_type}"
+    
+    def orchestrate(self, metrics, thresholds):
+        actions = []
+        for node_type, usage in metrics.items():
+            if usage > thresholds[node_type]["high"]:
+                actions.append(self.scale_up(node_type))
+            elif usage < thresholds[node_type]["low"]:
+                actions.append(self.scale_down(node_type))
+        return actions
+
+# Example usage:
+# orchestrator = CloudOrchestrator()
+# metrics = {"VM": 85, "Container": 30}
+# thresholds = {"VM":{"high":80,"low":40},"Container":{"high":70,"low":20}}
+# actions = orchestrator.orchestrate(metrics, thresholds)
+# print(actions)
+```
