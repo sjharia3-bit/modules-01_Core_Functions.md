@@ -1,0 +1,29 @@
+# Module 60 — Context-Aware Natural Language Understanding Engine
+
+class NLUContextEngine:
+    def __init__(self):
+        self.context_memory = {}
+
+    def parse_text(self, text):
+        return text.lower().split()
+
+    def update_context(self, user_id, text):
+        if user_id not in self.context_memory:
+            self.context_memory[user_id] = []
+        self.context_memory[user_id].append(text)
+
+    def understand_intent(self, user_id, text):
+        self.update_context(user_id, text)
+        tokens = self.parse_text(text)
+        if "report" in tokens:
+            return "Generate Report"
+        elif "forecast" in tokens:
+            return "Run Forecast"
+        else:
+            return "General Query"
+
+# Example usage:
+# engine = NLUContextEngine()
+# intent = engine.understand_intent("user1", "Please generate the sales report")
+# print(intent)
+```
