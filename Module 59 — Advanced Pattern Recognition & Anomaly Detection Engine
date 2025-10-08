@@ -1,0 +1,24 @@
+# Module 59 — Advanced Pattern Recognition & Anomaly Detection Engine
+
+import numpy as np
+
+class AnomalyDetectionEngine:
+    def __init__(self):
+        self.anomalies = []
+
+    def detect_pattern(self, data):
+        mean = np.mean(data)
+        std = np.std(data)
+        return mean, std
+
+    def detect_anomalies(self, data, threshold=2):
+        mean, std = self.detect_pattern(data)
+        self.anomalies = [x for x in data if abs(x - mean) > threshold * std]
+        return self.anomalies
+
+# Example usage:
+# engine = AnomalyDetectionEngine()
+# data = [10, 12, 11, 13, 50, 12]
+# anomalies = engine.detect_anomalies(data)
+# print(anomalies)
+```
