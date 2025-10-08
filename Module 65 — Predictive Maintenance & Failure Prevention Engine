@@ -1,0 +1,25 @@
+# Module 65 — Predictive Maintenance & Failure Prevention Engine
+
+import numpy as np
+
+class PredictiveMaintenanceEngine:
+    def __init__(self):
+        self.maintenance_alerts = []
+
+    def predict_failure(self, sensor_data):
+        threshold = np.mean(sensor_data) + 2*np.std(sensor_data)
+        alerts = [i for i, val in enumerate(sensor_data) if val > threshold]
+        self.maintenance_alerts.extend(alerts)
+        return alerts
+
+    def schedule_maintenance(self, alerts):
+        schedule = {f"Machine_{i}": "Maintenance Required" for i in alerts}
+        return schedule
+
+# Example usage:
+# engine = PredictiveMaintenanceEngine()
+# sensor_data = [10,12,11,15,50,13]
+# alerts = engine.predict_failure(sensor_data)
+# schedule = engine.schedule_maintenance(alerts)
+# print(alerts, schedule)
+```
