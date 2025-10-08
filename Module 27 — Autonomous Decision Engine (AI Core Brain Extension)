@@ -1,0 +1,38 @@
+# Module 27 — Autonomous Decision Engine
+
+import json
+import numpy as np
+
+class AutonomousDecisionEngine:
+    def __init__(self, policy_file="decision_policy.json"):
+        with open(policy_file, "r") as f:
+            self.policy = json.load(f)
+
+    def evaluate_options(self, data, constraints):
+        scored = {}
+        for option, factors in data.items():
+            score = sum(factors[k] * self.policy.get(k, 1.0) for k in factors)
+            if all(constraints.get(c, True) for c in constraints):
+                scored[option] = score
+        return scored
+
+    def choose_best_option(self, scored):
+        if not scored:
+            return None
+        best = max(scored, key=scored.get)
+        return {"best_choice": best, "confidence": scored[best]}
+
+    def feedback_update(self, result, success=True):
+        # Adaptive learning from feedback
+        for k in self.policy.keys():
+            self.policy[k] += 0.01 if success else -0.01
+        with open("decision_policy.json", "w") as f:
+            json.dump(self.policy, f)
+
+# Example usage:
+# decision_engine = AutonomousDecisionEngine()
+# options_data = {"OptionA": {"risk": 0.2, "profit": 0.8}, "OptionB": {"risk": 0.4, "profit": 0.9}}
+# result = decision_engine.evaluate_options(options_data, {"time_ok": True})
+# best = decision_engine.choose_best_option(result)
+# decision_engine.feedback_update(best, success=True)
+```
