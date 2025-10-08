@@ -1,0 +1,39 @@
+# Module 29 — Contextual Reasoning & Cognitive Understanding Engine
+
+import spacy
+from semantic_memory import SemanticMemoryEngine
+
+class CognitiveEngine:
+    def __init__(self, knowledge_engine: SemanticMemoryEngine):
+        self.knowledge_engine = knowledge_engine
+        self.nlp = spacy.load("en_core_web_sm")
+    
+    def interpret_query(self, query: str):
+        doc = self.nlp(query)
+        entities = [ent.text for ent in doc.ents]
+        return entities
+    
+    def reason_contextually(self, query: str):
+        entities = self.interpret_query(query)
+        results = {}
+        for e1 in entities:
+            for e2 in entities:
+                if e1 != e2:
+                    path = self.knowledge_engine.find_relation(e1, e2)
+                    if path:
+                        results[f"{e1}->{e2}"] = path
+        return results
+    
+    def generate_insight(self, query: str):
+        reasoning = self.reason_contextually(query)
+        if reasoning:
+            return {"query": query, "insights": reasoning}
+        else:
+            return {"query": query, "insights": "No relevant context found"}
+
+# Example usage:
+# sem_engine = SemanticMemoryEngine()
+# cognitive = CognitiveEngine(sem_engine)
+# insight = cognitive.generate_insight("How does AI impact Productivity?")
+# print(insight)
+```
