@@ -1,0 +1,23 @@
+# Module 71 — Self-Aware System Monitoring & Autonomous Correction Engine
+
+class SelfAwareMonitoringEngine:
+    def __init__(self):
+        self.corrections_log = []
+
+    def monitor_system(self, system_metrics):
+        deviations = {module: metrics for module, metrics in system_metrics.items() if metrics["error_rate"] > 0.1}
+        return deviations
+
+    def apply_corrections(self, deviations):
+        for module in deviations:
+            action = f"Auto-correcting {module}"
+            self.corrections_log.append((module, action))
+        return self.corrections_log
+
+# Example usage:
+# engine = SelfAwareMonitoringEngine()
+# system_metrics = {"PredictiveEngine":{"error_rate":0.2},"WorkflowEngine":{"error_rate":0.05}}
+# deviations = engine.monitor_system(system_metrics)
+# corrections = engine.apply_corrections(deviations)
+# print(corrections)
+```
