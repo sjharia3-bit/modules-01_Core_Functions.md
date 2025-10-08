@@ -1,0 +1,29 @@
+# Module 46 — Multi-Layered Data Validation & Integrity Engine
+
+import pandas as pd
+
+class DataValidator:
+    def __init__(self):
+        self.validation_log = []
+
+    def validate_row(self, row, rules):
+        for column, rule in rules.items():
+            if column not in row:
+                self.validation_log.append(f"Missing column: {column}")
+                return False
+            if not rule(row[column]):
+                self.validation_log.append(f"Validation failed for {column}: {row[column]}")
+                return False
+        return True
+
+    def validate_dataframe(self, df: pd.DataFrame, rules: dict):
+        valid_rows = df.apply(lambda row: self.validate_row(row, rules), axis=1)
+        return df[valid_rows]
+
+# Example usage:
+# df = pd.DataFrame({"age":[25, -5, 30],"salary":[50000, 60000, -1000]})
+# rules = {"age": lambda x: x>0, "salary": lambda x: x>0}
+# validator = DataValidator()
+# valid_df = validator.validate_dataframe(df, rules)
+# print(valid_df)
+```
