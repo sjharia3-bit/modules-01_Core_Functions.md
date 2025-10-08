@@ -1,0 +1,29 @@
+# Module 34 — Human-AI Interaction & Natural Language Interface Engine
+
+import speech_recognition as sr
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+
+class HAIInterface:
+    def __init__(self):
+        self.tokenizer = AutoTokenizer.from_pretrained("t5-small")
+        self.model = AutoModelForSeq2SeqLM.from_pretrained("t5-small")
+        self.recognizer = sr.Recognizer()
+
+    def process_text_query(self, query):
+        inputs = self.tokenizer(query, return_tensors="pt")
+        outputs = self.model.generate(**inputs)
+        response = self.tokenizer.decode(outputs[0], skip_special_tokens=True)
+        return response
+
+    def process_voice_query(self, audio_path):
+        with sr.AudioFile(audio_path) as source:
+            audio_data = self.recognizer.record(source)
+            query_text = self.recognizer.recognize_google(audio_data)
+        return self.process_text_query(query_text)
+
+# Example usage:
+# interface = HAIInterface()
+# response_text = interface.process_text_query("Explain AI 4.0 architecture")
+# response_voice = interface.process_voice_query("query.wav")
+# print(response_text)
+```
