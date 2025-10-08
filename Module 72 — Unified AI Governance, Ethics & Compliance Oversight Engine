@@ -1,0 +1,23 @@
+# Module 72 — Unified AI Governance, Ethics & Compliance Oversight Engine
+
+class GovernanceEngine:
+    def __init__(self):
+        self.violations_log = []
+
+    def review_actions(self, actions, rules):
+        for action in actions:
+            for rule_name, rule_func in rules.items():
+                if not rule_func(action):
+                    self.violations_log.append({"action": action, "violation": rule_name})
+
+    def enforce_compliance(self):
+        for violation in self.violations_log:
+            print(f"Compliance Action Taken: {violation}")
+
+# Example usage:
+# engine = GovernanceEngine()
+# actions = [{"module":"PredictiveEngine","action":"share_data"}]
+# rules = {"No Personal Data Sharing": lambda x: x["action"] != "share_data"}
+# engine.review_actions(actions, rules)
+# engine.enforce_compliance()
+```
