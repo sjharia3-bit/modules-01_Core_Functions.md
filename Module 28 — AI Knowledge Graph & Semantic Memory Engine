@@ -1,0 +1,38 @@
+# Module 28 — AI Knowledge Graph & Semantic Memory Engine
+
+import networkx as nx
+import json
+
+class SemanticMemoryEngine:
+    def __init__(self):
+        self.graph = nx.DiGraph()
+
+    def add_knowledge(self, entity_a, relation, entity_b):
+        self.graph.add_edge(entity_a, entity_b, relation=relation)
+
+    def find_relation(self, entity_a, entity_b):
+        try:
+            path = nx.shortest_path(self.graph, entity_a, entity_b)
+            relations = [self.graph[u][v]['relation'] for u, v in zip(path[:-1], path[1:])]
+            return {"path": path, "relations": relations}
+        except nx.NetworkXNoPath:
+            return None
+
+    def export_graph(self, file_name="knowledge_graph.json"):
+        data = nx.readwrite.json_graph.node_link_data(self.graph)
+        with open(file_name, "w") as f:
+            json.dump(data, f)
+
+    def import_graph(self, file_name="knowledge_graph.json"):
+        with open(file_name, "r") as f:
+            data = json.load(f)
+        self.graph = nx.readwrite.json_graph.node_link_graph(data)
+
+# Example usage:
+# engine = SemanticMemoryEngine()
+# engine.add_knowledge("AI", "enhances", "Automation")
+# engine.add_knowledge("Automation", "supports", "Productivity")
+# relation = engine.find_relation("AI", "Productivity")
+# print(relation)
+# engine.export_graph()
+```
